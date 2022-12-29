@@ -47,13 +47,13 @@ function checksTodoExists(request, response, next) {
 
   const todo = user.todos.find((it) => it.id === id);
 
-  if (todo) {
-    request.user = user;
-    request.todo = todo;
-    next();
+  if (!todo) {
+    return response.status(404).send({ error: true });
   }
 
-  return response.status(404);
+  request.user = user;
+  request.todo = todo;
+  next();
 }
 
 function findUserById(request, response, next) {
